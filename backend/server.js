@@ -1,13 +1,10 @@
 import express from "express";
-
-import { createServer } from "node:http";
-
-import { Server } from "socket.io";
-import mongoose from "mongoose";
-import connectDB from "./config/mongodb.js";
-
-import cors from 'cors';
+import cors from 'cors'
 import dotenv from 'dotenv'
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import connectDB from "./config/mongodb.js";
+import userRouter from './router/userRoute.js'
 
 // app config
 const app = express();
@@ -19,10 +16,17 @@ connectDB();
 
 
 // middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+
+//api endpoints
+app.use('/api/user', userRouter)
 
 
 app.get("/", (req, res) => {
-  res.send("Hello Satya...");
+  res.send("Api is working...");
 
 });
 
